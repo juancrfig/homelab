@@ -1,0 +1,13 @@
+skill_id: acl_readonly
+domain: permissions/acl
+type: doing
+template: "Give user {{user}} read-only access to the file {{path}} using POSIX ACLs (do not change owner/group/other bits)."
+param_generator:
+  user: [deploy, ci, web, app, svc, audit]
+  path: [/srv/app/config.ini, /etc/app/secrets.conf, /opt/data/report.csv, /var/lib/svc/state.json]
+success_criteria: "`getfacl {{path}}` shows a line `user:{{user}}:r--` and no write or execute for that user."
+reference_solution:
+  commands: |
+    setfacl -m u:{{user}}:r-- {{path}}
+    getfacl {{path}}
+  why: "ACLs grant per-user perms beyond the single owner/group/other model. r-- = read, no write, no execute. setfacl -m modifies; getfacl verifies."

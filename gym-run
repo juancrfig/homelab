@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Launch the Linux Practice Gym TUI. Open a SECOND terminal as your arena (PRD §10).
+# uv resolves/installs deps from pyproject.toml on first run.
+exec uv run python -m gym.app "$@"
