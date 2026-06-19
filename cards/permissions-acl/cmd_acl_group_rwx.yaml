@@ -1,0 +1,14 @@
+skill_id: perms.acl-group-rwx
+topic: permissions-acl
+type: command
+variants:
+  - template: "Grant group {{group}} full read/write/execute access to {{path}} via ACL, without making {{group}} the file's owning group."
+    success_criteria: "`getfacl {{path}}` shows a `group:{{group}}:rwx` named-group entry, and the file's owning group (per `ls -l {{path}}`) is unchanged."
+    reference_solution:
+      commands: |
+        setfacl -m g:{{group}}:rwx {{path}}
+        getfacl {{path}}
+      why: "g:NAME:perms in setfacl -m adds a named-group ACL entry, distinct from chgrp which would change actual ownership."
+param_generator:
+  group: [deploy, ci, audit, web]
+  path: [/srv/app/config.ini, /opt/data/report.csv, /var/lib/svc/state.json]

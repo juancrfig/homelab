@@ -1,0 +1,14 @@
+skill_id: perms.acl-revoke
+topic: permissions-acl
+type: command
+variants:
+  - template: "User {{user}} currently has an ACL entry on {{path}}. Revoke that user's ACL access entirely, leaving the rest of the file's ACLs and owner/group/other untouched."
+    success_criteria: "`getfacl {{path}}` no longer lists a `user:{{user}}:` line, while base owner/group/other and any other entries remain."
+    reference_solution:
+      commands: |
+        setfacl -x u:{{user}} {{path}}
+        getfacl {{path}}
+      why: "-x removes one named entry surgically without touching other ACL entries, the mask, or the traditional bits."
+param_generator:
+  user: [deploy, ci, web, app, svc, audit]
+  path: [/srv/app/config.ini, /etc/app/secrets.conf, /opt/data/report.csv, /var/lib/svc/state.json]

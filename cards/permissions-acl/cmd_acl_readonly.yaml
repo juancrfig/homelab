@@ -1,0 +1,21 @@
+skill_id: perms.acl-readonly
+topic: permissions-acl
+type: command
+variants:
+  - template: "Give user {{user}} read-only access to the file {{path}} using POSIX ACLs (do not change owner/group/other bits)."
+    success_criteria: "`getfacl {{path}}` shows a line `user:{{user}}:r--` and no write or execute for that user."
+    reference_solution:
+      commands: |
+        setfacl -m u:{{user}}:r-- {{path}}
+        getfacl {{path}}
+      why: "ACLs grant per-user perms beyond the single owner/group/other model. r-- = read, no write, no execute. setfacl -m modifies; getfacl verifies."
+  - template: "Without touching the standard permission bits, grant {{user}} read access only to {{path}} via an ACL entry."
+    success_criteria: "`getfacl {{path}}` shows a line `user:{{user}}:r--` and no write or execute for that user."
+    reference_solution:
+      commands: |
+        setfacl -m u:{{user}}:r-- {{path}}
+        getfacl {{path}}
+      why: "setfacl -m adds/updates a named-user entry without altering owner/group/other; r-- restricts that entry to read-only."
+param_generator:
+  user: [deploy, ci, web, app, svc, audit]
+  path: [/srv/app/config.ini, /etc/app/secrets.conf, /opt/data/report.csv, /var/lib/svc/state.json]

@@ -1,0 +1,16 @@
+skill_id: perms.acl-purpose
+topic: permissions-acl
+type: recall
+variants:
+  - template: "Interview question: why would you reach for a POSIX ACL instead of just using chmod/chown?"
+    success_criteria: "You explain that ACLs grant access to specific extra users/groups beyond the single owner/group/other model, without changing ownership or loosening bits for everyone else."
+    reference_solution:
+      commands: |
+        getfacl /path/to/file   # shows base perms + any extra user:/group: entries
+      why: "chmod/chown only express owner, one group, and everyone else. ACLs add named user/group entries on top, so you can grant one extra account access without joining a group or reassigning ownership."
+  - template: "Someone asks: 'what problem do ACLs solve that the standard rwx bits don't?' How do you answer?"
+    success_criteria: "You explain that ACLs grant access to specific extra users/groups beyond the single owner/group/other model, without changing ownership or loosening bits for everyone else."
+    reference_solution:
+      commands: |
+        getfacl /path/to/file
+      why: "Standard rwx only models one owner, one group, and everyone else. ACLs let you bolt on named user/group entries for cases that don't fit that, without touching ownership."

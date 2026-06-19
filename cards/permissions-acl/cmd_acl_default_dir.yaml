@@ -1,0 +1,14 @@
+skill_id: perms.acl-default-dir
+topic: permissions-acl
+type: command
+variants:
+  - template: "Set a default ACL on directory {{dir}} so that every new file created inside it is automatically readable, writable, and executable by group {{group}} — without a manual chmod step after each creation."
+    success_criteria: "`getfacl {{dir}}` shows a `default:group:{{group}}:rwx` line, and a newly created file inside {{dir}} inherits a `group:{{group}}:rwx` ACL entry."
+    reference_solution:
+      commands: |
+        setfacl -d -m g:{{group}}:rwx {{dir}}
+        getfacl {{dir}}
+      why: "setfacl -d sets a default ACL on the directory itself; it's automatically copied onto every new child file/subdir as their own ACL at creation time."
+param_generator:
+  dir: [/srv/app, /opt/data, /var/lib/svc]
+  group: [deploy, ci, audit]

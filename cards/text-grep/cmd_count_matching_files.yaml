@@ -1,0 +1,13 @@
+skill_id: grep.count-matching-files
+topic: text-grep
+type: command
+variants:
+  - template: "Under {{dir}}, list only the names of files (recursively) that contain at least one occurrence of {{term}} — no line content, no counts."
+    success_criteria: "Output is a list of file paths under {{dir}} that contain {{term}}, with no line numbers or matched text shown."
+    reference_solution:
+      commands: |
+        grep -rl "{{term}}" {{dir}}
+      why: "-l short-circuits per file once a match is found and prints only the filename, ideal for a quick inventory of affected files."
+param_generator:
+  term: [deprecated, TODO, "localhost:8080"]
+  dir: [/etc, /opt/app, /srv/app]

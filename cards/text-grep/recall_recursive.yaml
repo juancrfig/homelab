@@ -1,0 +1,16 @@
+skill_id: grep.recursive-vs-default
+topic: text-grep
+type: recall
+variants:
+  - template: "By default, does `grep PATTERN .` search subdirectories? What flag changes that, and what does it do to the output format?"
+    success_criteria: "You state that plain grep does NOT descend into subdirectories on its own, that `-r` (or `-R` for following symlinks) makes it recursive, and that recursive output is prefixed with the matching file's path."
+    reference_solution:
+      commands: |
+        grep -rn PATTERN .
+      why: "Without -r, grep on a directory argument just complains or skips it. -r walks the tree; -n adds line numbers; output becomes path:line:match."
+  - template: "A teammate runs `grep ERROR .` expecting it to search every log under the current directory, but gets no matches and a warning. What's missing, and why?"
+    success_criteria: "You state that plain grep does NOT descend into subdirectories on its own, that `-r` (or `-R`) makes it recursive, and that recursive output is prefixed with the matching file's path."
+    reference_solution:
+      commands: |
+        grep -rn ERROR .
+      why: "grep treats a directory argument as an error/no-op unless told to recurse with -r. Add -n for line numbers in the output."

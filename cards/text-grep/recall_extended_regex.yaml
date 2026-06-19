@@ -1,0 +1,10 @@
+skill_id: grep.basic-vs-extended-regex
+topic: text-grep
+type: recall
+variants:
+  - template: "You want to match either 'error' or 'warn' in one grep pattern using `|`, but plain `grep 'error|warn'` isn't working as expected. What's going on?"
+    success_criteria: "You explain that plain grep uses POSIX basic regex, where `|` is literal unless escaped (`\\|`), and that `-E` (extended regex, or `egrep`) treats `|`, `+`, `{}` as metacharacters without escaping."
+    reference_solution:
+      commands: |
+        grep -E 'error|warn' file
+      why: "Basic regex (default grep) requires backslash-escaping for |, +, {} to use them as operators. -E switches to extended regex where they work unescaped."

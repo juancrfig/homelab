@@ -1,0 +1,19 @@
+skill_id: grep.recursive-search
+topic: text-grep
+type: command
+variants:
+  - template: "Find every line containing {{term}} under {{dir}}, recursively, with file name and line number shown."
+    success_criteria: "Output lists each matching file:line:content for {{term}} under {{dir}}, including files in subdirectories."
+    reference_solution:
+      commands: |
+        grep -rn "{{term}}" {{dir}}
+      why: "-r recurses into subdirectories, -n shows line numbers. Output format is path:line:matching-text."
+  - template: "Search {{dir}} and everything beneath it for occurrences of {{term}}, showing which file and line each hit is on."
+    success_criteria: "Output lists each matching file:line:content for {{term}} under {{dir}}, including files in subdirectories."
+    reference_solution:
+      commands: |
+        grep -rn "{{term}}" {{dir}}
+      why: "-r recurses, -n adds line numbers so you can jump straight to the hit."
+param_generator:
+  term: [TODO, FIXME, ERROR, "deprecated"]
+  dir: [/etc, /var/log, /opt/app, /srv/app]

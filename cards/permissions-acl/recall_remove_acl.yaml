@@ -1,0 +1,14 @@
+skill_id: perms.acl-remove-vs-strip
+topic: permissions-acl
+type: recall
+variants:
+  - template: "What's the difference between removing one ACL entry for a user and stripping all extended ACLs from a file?"
+    success_criteria: "You distinguish `setfacl -x` (removes one named entry, leaves other ACL entries and the mask intact) from `setfacl -b` (removes every extended ACL entry, reverting the file to plain owner/group/other)."
+    reference_solution:
+      commands: |
+        setfacl -x u:{{user}} {{path}}   # remove just that user's entry
+        setfacl -b {{path}}              # strip ALL extended ACL entries
+      why: "-x targets a single named entry surgically. -b is a full reset back to the traditional owner/group/other model, removing every extended entry and the mask."
+param_generator:
+  user: [deploy, ci, audit, svc]
+  path: [/srv/app/config.ini, /opt/data/report.csv, /var/lib/svc/state.json]

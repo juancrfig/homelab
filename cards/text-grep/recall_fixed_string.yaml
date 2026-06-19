@@ -1,0 +1,10 @@
+skill_id: grep.fixed-string
+topic: text-grep
+type: recall
+variants:
+  - template: "You want to search for the literal string `1.2.3.4` (an IP, with literal dots) and not have `.` match any character. What should you do?"
+    success_criteria: "You name `grep -F` (or `fgrep`) to treat the pattern as a fixed/literal string instead of a regex, so `.` matches only a literal dot."
+    reference_solution:
+      commands: |
+        grep -F "1.2.3.4" file
+      why: "In a regular regex, '.' matches any character, so '1.2.3.4' would also match '1x2x3x4'. -F disables regex interpretation entirely, treating the pattern as a literal string."

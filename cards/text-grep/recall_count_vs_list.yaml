@@ -1,0 +1,11 @@
+skill_id: grep.count-vs-list
+topic: text-grep
+type: recall
+variants:
+  - template: "What's the difference between `grep -c PATTERN file` and `grep -l PATTERN file`, especially when run recursively over many files?"
+    success_criteria: "You explain `-c` prints a count of matching lines per file, while `-l` prints only the names of files that contain at least one match (no counts, no line content)."
+    reference_solution:
+      commands: |
+        grep -rc PATTERN .
+        grep -rl PATTERN .
+      why: "-c counts matching lines per file (0 included unless -l-style filtering); -l short-circuits per file once a match is found and just names the file."

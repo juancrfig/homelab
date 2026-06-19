@@ -1,0 +1,12 @@
+# Your reps — local progress, not content. Delete to reset.
+state/
+
+# LLM-authored candidates awaiting human review (Phase 3)
+pending/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/

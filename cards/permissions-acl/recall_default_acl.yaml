@@ -1,0 +1,14 @@
+skill_id: perms.default-acl
+topic: permissions-acl
+type: recall
+variants:
+  - template: "What is a 'default ACL' on a directory, and what happens to files created inside it afterward?"
+    success_criteria: "You explain a default ACL is set on the directory and is automatically inherited as the (regular) ACL on every new file/subdirectory created inside it afterward — it does not retroactively affect existing files."
+    reference_solution:
+      commands: |
+        setfacl -d -m u:{{user}}:rwx {{dir}}
+        getfacl {{dir}}   # shows default: entries
+      why: "setfacl -d sets a default ACL on a directory. New children inherit it as their own ACL at creation time; files that already existed before the default was set are untouched."
+param_generator:
+  user: [deploy, ci, audit]
+  dir: [/srv/app, /opt/data, /var/lib/svc]

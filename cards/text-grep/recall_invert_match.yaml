@@ -1,0 +1,16 @@
+skill_id: grep.invert-match
+topic: text-grep
+type: recall
+variants:
+  - template: "How do you list every line in a file that does NOT match a given pattern?"
+    success_criteria: "You name `grep -v PATTERN file` and explain it inverts the match, printing non-matching lines instead of matching ones."
+    reference_solution:
+      commands: |
+        grep -v PATTERN file
+      why: "-v inverts the selection: every line that would normally be excluded is printed, and matching lines are excluded instead."
+  - template: "You want to filter OUT all lines containing 'DEBUG' from a log and see everything else. Which grep flag and how?"
+    success_criteria: "You name `grep -v DEBUG file` and explain it inverts the match, printing non-matching lines instead of matching ones."
+    reference_solution:
+      commands: |
+        grep -v DEBUG file
+      why: "-v flips grep's selection logic to print lines that do NOT match the pattern."

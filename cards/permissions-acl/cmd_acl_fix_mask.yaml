@@ -1,0 +1,14 @@
+skill_id: perms.acl-fix-mask
+topic: permissions-acl
+type: command
+variants:
+  - template: "On {{path}}, user {{user}} has an ACL entry of rwx but `getfacl` shows their effective permission is capped lower because the mask is too narrow. Widen the mask so the entry takes full effect."
+    success_criteria: "`getfacl {{path}}` shows `mask::rwx` and the effective permissions noted for `user:{{user}}` are no longer capped below rwx."
+    reference_solution:
+      commands: |
+        setfacl -m m::rwx {{path}}
+        getfacl {{path}}
+      why: "The mask caps effective permissions for every named user/group entry. Widening it with setfacl -m m::rwx lets existing entries take full effect without re-adding them."
+param_generator:
+  user: [deploy, ci, web, audit]
+  path: [/srv/app/config.ini, /opt/data/report.csv, /var/lib/svc/state.json]

@@ -1,0 +1,13 @@
+skill_id: perms.getfacl-output
+topic: permissions-acl
+type: recall
+variants:
+  - template: "`getfacl {{path}}` prints a line `user:{{user}}:r--` alongside the normal owner/group/other lines. What does that line mean, and how is it different from the base entries?"
+    success_criteria: "You identify it as a named-user ACL entry granting that specific user read-only access, distinct from (and additive to) the file's owner/group/other bits."
+    reference_solution:
+      commands: |
+        getfacl {{path}}
+      why: "Lines like 'user:NAME:perms' are named ACL entries for a specific user, separate from the base owner/group/other triplet that getfacl also prints."
+param_generator:
+  path: [/srv/app/config.ini, /etc/app/secrets.conf, /opt/data/report.csv]
+  user: [deploy, ci, audit, svc]

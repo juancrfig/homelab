@@ -1,0 +1,13 @@
+skill_id: grep.case-insensitive
+topic: text-grep
+type: command
+variants:
+  - template: "Search {{file}} for {{term}}, matching regardless of upper/lower case."
+    success_criteria: "Matches are returned for {{term}} in any case combination (e.g. both 'Error' and 'ERROR' would match a search for 'error')."
+    reference_solution:
+      commands: |
+        grep -i "{{term}}" {{file}}
+      why: "-i makes the match case-insensitive across the whole pattern, not just the first character."
+param_generator:
+  term: [error, warning, failed, timeout]
+  file: [/var/log/app.log, /var/log/syslog, /var/log/auth.log]

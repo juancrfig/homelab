@@ -1,0 +1,13 @@
+skill_id: grep.invert-match-filter
+topic: text-grep
+type: command
+variants:
+  - template: "Show every line in {{file}} except the ones containing {{term}}."
+    success_criteria: "Output contains all lines from {{file}} that do NOT contain {{term}}; lines with {{term}} are excluded."
+    reference_solution:
+      commands: |
+        grep -v "{{term}}" {{file}}
+      why: "-v inverts the match, printing lines that do not match instead of ones that do."
+param_generator:
+  term: [DEBUG, heartbeat, "health check"]
+  file: [/var/log/app.log, /var/log/syslog]

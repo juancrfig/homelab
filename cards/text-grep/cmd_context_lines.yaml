@@ -1,0 +1,14 @@
+skill_id: grep.context-lines
+topic: text-grep
+type: command
+variants:
+  - template: "Search {{file}} for {{term}} and show {{n}} lines of context before and after each match."
+    success_criteria: "Output includes the matching line plus {{n}} lines immediately before and after it for each hit, with grep's `--` group separators between hits."
+    reference_solution:
+      commands: |
+        grep -C {{n}} "{{term}}" {{file}}
+      why: "-C N shows N lines of context on both sides of a match. Use -A/-B if you only want context after/before, respectively."
+param_generator:
+  term: [timeout, exception, "connection refused"]
+  file: [/var/log/app.log, /var/log/syslog]
+  n: ["2", "3", "5"]

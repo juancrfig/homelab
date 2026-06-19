@@ -1,0 +1,18 @@
+skill_id: perms.acl-mask
+topic: permissions-acl
+type: recall
+variants:
+  - template: "What does the ACL `mask` entry do, and why can a named-user entry of `rwx` still end up effectively read-only?"
+    success_criteria: "You explain the mask caps the maximum effective permissions for all named user/group ACL entries (and the owning group) — an entry can't exceed it regardless of what it literally grants."
+    reference_solution:
+      commands: |
+        getfacl /path   # look for the 'mask::' line
+        setfacl -m m::rwx /path   # widen the mask if entries are being capped
+      why: "The mask is a ceiling applied to every named user/group entry. If mask::r-- and a user entry says rwx, the effective permission is still only r-- until the mask is widened."
+  - template: "A teammate set `setfacl -m u:deploy:rwx file` but `deploy` still can't write. Before checking anything else, what ACL concept should you suspect?"
+    success_criteria: "You name the mask as the likely culprit — it caps effective permissions for named entries below what they individually request."
+    reference_solution:
+      commands: |
+        getfacl file
+        setfacl -m m::rwx file
+      why: "setfacl -m on a named entry can silently leave the mask too narrow to grant what was just requested; the entry exists but is capped."
