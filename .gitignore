@@ -1,9 +1,0 @@
-# Your reps — local progress, not content (PRD §11). Delete to reset.
-state/
-
-# Python
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-*.egg-info/
